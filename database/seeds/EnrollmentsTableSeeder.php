@@ -14,7 +14,8 @@ class EnrollmentsTableSeeder extends Seeder
     public function run()
     {
         $classroom_id = \App\Models\Classroom::first()->id;
-        $students = User::role('student')->get();
+        // $students = User::role('student')->get();
+        $students = User::all();
         foreach ($students as $student){
             $obj = new Enrollment();
             $obj->classroom_id = $classroom_id;

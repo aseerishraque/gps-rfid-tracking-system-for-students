@@ -6,16 +6,75 @@ use App\Models\Attendance;
 use App\Models\Classroom;
 use App\Models\LeaveApproval;
 use App\User;
+use App\Models\Enrollment;
 use Faker\Factory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class ClassroomController extends Controller
 {
     public function index()
     {
-        $classrooms = Classroom::where('user_id', auth()->user()->id)->get();
+        $classrooms = Classroom::join("enrollments", "enrollments.classroom_id", "classrooms.id")
+                                ->where('enrollments.student_id', auth()->user()->id)
+                                ->select("classrooms.*")
+                                ->get();
 
         return view('pages.classrooms.index', compact('classrooms'));
+    }
+
+    public function joinClassroom(Request $request){
+        $classroom = Classroom::where("join_code", $request->join_code)->first();
+        if(!is_null($classroom)){
+            $obj = new Enrollment();
+            $obj->classroom_id = $classroom->id;
+            $obj->student_id = auth()->user()->id;
+            if($obj->save()){
+                return redirect()->route("admin.classrooms")->with([
+                    "success" => "Classroom joined Successfully!"
+                ]);
+            }else{
+                return redirect()->route("admin.classrooms")->with([
+                    "error" => "Classroom join Error!"
+                ]);
+            }
+        }else{
+            return redirect()->route("admin.classrooms")->with([
+                "error" => "Classroom Not found!"
+            ]);
+        }
+    }
+
+    public function registerStudent(){
+        return view('pages.users.register-student');
+    }
+
+    public function ProcessRegisterStudent(Request $request){
+        // Validation Data
+        $request->validate([
+            'name' => 'required|max:50',
+            'email' => 'required|max:100|email|unique:users,email',
+            'username' => 'required|max:100|unique:users,username',
+            'password' => 'required|min:6|confirmed',
+        ]);
+
+        // Create New Student
+        $user = new User();
+        $user->name = $request->name;
+        $user->username = $request->username;
+        $user->email = $request->email;
+        $user->password = Hash::make($request->password);
+        $user->save();
+
+        
+        $user->assignRole('student');
+
+        session()->flash('success', 'Student has been registered !!');
+        return redirect()->route('login.get');
+    }
+
+    public function trackStudents($classroom_id){
+        return view("pages.classrooms.track");
     }
 
     public function rfidLogs()
@@ -82,7 +141,14 @@ class ClassroomController extends Controller
     }
     public function approves()
     {
-        return view('pages.approves');
+        $classrooms = Classroom::where('user_id', auth()->user()->id)->get();
+        $approves = LeaveApproval::join('classrooms', 'classrooms.id', 'leave_approvals.classroom_id')
+                                ->join('users', 'users.id', 'leave_approvals.user_id')
+                                ->where('classrooms.user_id', auth()->user()->id)
+                                ->where('leave_approvals.is_approve', 1)
+                                ->select('leave_approvals.*', 'users.id as student_id', 'users.name as student_name', 'classrooms.name as classroom_name')
+                                ->get();
+        return view('pages.approves', compact("approves"));
     }
 
     public function createClassroom()
@@ -122,10 +188,15 @@ class ClassroomController extends Controller
             $obj->marks = $request->marks;
         $obj->send_msg_guardian = $request->send_msg_guardian;
         $obj->join_code = $request->join_code;
-        if ($obj->save())
+        if ($obj->save()){
+            $obj2 = new Enrollment();
+            $obj2->classroom_id = $obj->id;
+            $obj2->student_id = auth()->user()->id;
+            $obj2->save();
             return back()->with([
                 'success' => 'Classroom Created !'
             ]);
+        }
         else
             return back()->with([
                 'error' => 'Classroom Create Error!'

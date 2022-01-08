@@ -14,6 +14,8 @@ use Illuminate\Support\Facades\Route;
 */
 Route::get('login', 'DashboardController@loginPage')->name('login.get');
 Route::post('login', 'DashboardController@loginCheck')->name('login.auth');
+Route::get("register-student", "ClassroomController@registerStudent")->name("register.student");
+Route::post("register-student", "ClassroomController@ProcessRegisterStudent")->name("register.student.store");
 Route::middleware(['is_logged_in'])->group(function () {
     Route::get('/', function () {
         return redirect()->route('admin.classrooms');
@@ -28,6 +30,7 @@ Route::middleware(['is_logged_in'])->group(function () {
         Route::delete('delete/{classroom_id}', 'ClassroomController@destroyClassroom')->name('classroom.destroy');
         Route::group(['prefix' => "attendance"], function (){
             Route::get('take-attendance/{classroom_id}', 'ClassroomController@takeAttendance')->name('attendance.get');
+            Route::get('track-students/{classroom_id}', 'ClassroomController@trackStudents')->name('track.get');
             Route::post('store-attendance/{classroom_id}', 'AttendanceController@store')->name('attendance.store');
         });
 
@@ -55,7 +58,11 @@ Route::middleware(['is_logged_in'])->group(function () {
         Route::resource('roles', 'RolesController');
         Route::resource('permissions', 'PermissionController');
         Route::resource('users', 'UserController');
+        Route::post("join-classroom", "ClassroomController@joinClassroom")->name("classroom.join");
     });//End of Admin Routes
+
+
+    
 
 //    Start of Student Routes
     Route::group(['prefix' => "students"], function (){

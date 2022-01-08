@@ -17,62 +17,40 @@ class RolePermissionSeeder extends Seeder
         // Create Roles
         $roleAdmin = Role::create(['name' => 'admin']);
         $roleSuperAdmin = Role::create(['name' => 'superadmin']);
-        $roleEditor = Role::create(['name' => 'student']);
+        $roleStudents = Role::create(['name' => 'student']);
         $roleUser = Role::create(['name' => 'guardian']);
 
         //Permissions list as Array
         $permissions = [
 
             [
-                'group_name' => "dashboard",
+                'group_name' => "Admin",
                 'permissions' => [
-                    'dashboard.view',
-                    'dashboard.edit'
+                    'Admin.Roles and Permission',
+                    'Admin.RFID',
+                    'Admin.Leave Approval',
+                    'Admin.Users',
+                    'Admin.Reports',
+                    'Admin.Take Attendance',
+                    'Admin.Track Students'
                 ]
             ],
             [
-                'group_name' => "blog",
+                'group_name' => "Classrooms",
                 'permissions' => [
-                    'blog.create',
-                    'blog.view',
-                    'blog.edit',
-                    'blog.delete',
-                    'blog.approve',
-
-                ]
-            ],
-
-            [
-                'group_name' => "admin",
-                'permissions' => [
-                    'admin.create',
-                    'admin.view',
-                    'admin.edit',
-                    'admin.delete',
-                    'admin.approve',
-
-                ]
-            ],
-            [
-                'group_name' => "Role",
-                'permissions' => [
-                    'role.create',
-                    'role.view',
-                    'role.edit',
-                    'role.delete',
-                    'role.approve',
-
+                    'Classrooms.Create',
+                    'Classrooms.View',
+                    'Classrooms.Edit',
+                    'Classrooms.Delete'
                 ]
             ],
 
             [
-                'group_name' => "profile",
+                'group_name' => "Students",
                 'permissions' => [
-                    'profile.view',
-                    'profile.edit',
-
+                    'Students.Apply Leave'
                 ]
-            ],
+            ]
         ];
 
         //Create  and Assign Permissions to superAdmin
@@ -84,8 +62,17 @@ class RolePermissionSeeder extends Seeder
                     'name' => $permissions[$i]['permissions'][$j],
                     'group_name' => $permissionGroup
                 ]);
-                $roleSuperAdmin->givePermissionTo($permission);
-                $permission->assignRole($roleSuperAdmin);
+                if($permissionGroup == "Students"){
+                    $roleStudents->givePermissionTo($permission);
+                    $permission->assignRole($roleStudents);
+                }else{
+                    $roleAdmin->givePermissionTo($permission);
+                    $permission->assignRole($roleAdmin);
+
+                    $roleSuperAdmin->givePermissionTo($permission);
+                    $permission->assignRole($roleSuperAdmin);
+                }
+                
             }
 
         }

@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Classroom;
 use App\Models\LeaveApproval;
 use Illuminate\Http\Request;
-
+ 
 class LeaveApprovalController extends Controller
 {
 

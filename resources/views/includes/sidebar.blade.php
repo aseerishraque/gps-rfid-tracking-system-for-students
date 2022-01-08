@@ -19,6 +19,7 @@
                             <li class="{{ Route::is('classrooms.create') ? 'active' : '' }}"><a href="{{ route('classrooms.create') }}">Create Classrooms</a></li>
                         </ul>
                     </li>
+                    @can("Admin.Reports")
                     <li class="{{ Route::is('reports.daily') ||
                                   Route::is('reports.monthly') ||
                                   Route::is('reports.yearly') ? 'active' : '' }}">
@@ -32,12 +33,16 @@
                             <li class="{{ Route::is('reports.yearly') ? 'active' : '' }}"><a href="{{ route('reports.yearly') }}">Yearly</a></li>
                         </ul>
                     </li>
+                    @endcan
+                    @can("Admin.RFID")
                     <li class="{{ Route::is('rfid.logs') ? 'active' : '' }}">
                         <a href="{{ route('rfid.logs') }}"><i class="ti-layout-sidebar-left"></i>
                             <span>
                                 RFID Logs(in/out)
                             </span></a>
                     </li>
+                    @endcan
+                    @can("Admin.Leave Approval")
                     <li class="{{ Route::is('leave.requests') ||
                                   Route::is('leave.approves') ? 'active' : '' }}">
                         <a href="javascript:void(0)" aria-expanded="true"><i class="ti-layout-sidebar-left"></i>
@@ -49,6 +54,8 @@
                             <li class="{{ Route::is('leave.approves') ? 'active' : '' }}"><a href="{{ route('leave.approves') }}">All Approves <span class="badge badge-light">4</span></a></li>
                         </ul>
                     </li>
+                    @endcan
+                    @can("Admin.Users")
                     <li class="{{ Route::is('guardians.list') ||
                                   Route::is('students.list') ? 'active' : '' }}">
                         <a href="javascript:void(0)" aria-expanded="true"><i class="ti-layout-sidebar-left"></i>
@@ -60,6 +67,8 @@
                             <li class="{{ Route::is('guardians.list') ? 'active' : '' }}"><a href="{{ route('guardians.list') }}">Guardian List <span class="badge badge-light">4</span></a></li>
                         </ul>
                     </li>
+                    @endcan
+                    @can("Admin.Roles and Permission")
                     <li class="{{ Route::is('roles.index') ||
                                   Route::is('permissions.index') ||
                                   Route::is('roles.create') ? 'active' : '' }}">
@@ -73,8 +82,9 @@
                             <li class="{{ Route::is('permissions.index') ? 'active' : '' }}"><a href="{{ route('permissions.index') }}">All Permissions <span class="badge badge-light">4</span></a></li>
                         </ul>
                     </li>
-                    <li class="{{ Route::is('users.index') ||
-                                  Route::is('users.create') ? 'active' : '' }}">
+                    @endcan
+                    @can("Admin.Users")
+                    <li class="{{ Route::is('users.*') ? 'active' : '' }}">
                         <a href="javascript:void(0)" aria-expanded="true"><i class="ti-layout-sidebar-left"></i>
                             <span>
                               Users
@@ -84,6 +94,7 @@
                             <li class="{{ Route::is('users.index') ? 'active' : '' }}"><a href="{{ route('users.index') }}">All Users <span class="badge badge-light">4</span></a></li>
                         </ul>
                     </li>
+                    @endcan
                 </ul>
             </nav>
         </div>
