@@ -20,4 +20,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::group(['prefix' => "v1"], function (){
     Route::get('get-new-join-code', 'api\ApiController@getNewJoinCode')->name('join_code.new');
+    Route::post('login', "api\ApiController@studentLogin");
+    Route::post("store-gps/{student_id}", "api\ApiController@storeGPS");
+    Route::get("store-student-rfid/{card_id}", "api\ApiController@storeRfidLog");
 });

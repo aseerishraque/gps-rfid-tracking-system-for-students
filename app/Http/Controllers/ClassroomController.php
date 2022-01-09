@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Attendance;
 use App\Models\Classroom;
 use App\Models\LeaveApproval;
+use App\Models\RfidLog;
 use App\User;
 use App\Models\Enrollment;
 use Faker\Factory;
@@ -79,7 +80,9 @@ class ClassroomController extends Controller
 
     public function rfidLogs()
     {
-        return view('pages.rfid-logs');
+        $logs = RfidLog::all();
+
+        return view('pages.rfid-logs', compact("logs"));
     }
 
     public function requests()
