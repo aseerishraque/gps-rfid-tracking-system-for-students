@@ -78,10 +78,6 @@ class ApiController extends Controller
 
 
     public function storeRfidLog($card_id){
-        // return response()->json([
-        //     'card_id' => $card_id
-        // ]);
-
         $student = StudentRfidCardInfo::where("card_id", $card_id)->first();
         if(!is_null($student)){
             $in_time_data = RfidLog::whereDate("created_at", Carbon::today())
