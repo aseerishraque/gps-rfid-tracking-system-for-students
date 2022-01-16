@@ -7,7 +7,8 @@
         <div class="col-md-12">
             <div class="card" >
                 <div class="card-body">
-                    <button class="btn btn-primary" id="create-polygon">Take Attendace</button>
+                    <button class="btn btn-primary" id="create-polygon">Set Boundary</button>
+                    <button class="btn btn-primary" id="remove-polygon">Remove Boundary</button>
                     <!-- <button class="btn btn-primary" id="current-location">Get location</button> -->
                     <div id="student-attended"></div>
                     <div id="map"></div>

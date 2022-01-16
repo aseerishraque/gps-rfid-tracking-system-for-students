@@ -156,12 +156,14 @@
       map.addListener("click", addLatLng);
       // -----Polyline end
 
+
+      let polygon_shape = '';
       //On click event for creating polygon
       document.getElementById("create-polygon").onclick = function () {
 
         // Construct the polygon.
-        let poly = '';
-        poly = createPolygon(polygonCoords);
+        
+        polygon_shape = createPolygon(polygonCoords);
         //each is_instide(Student_location, polygon_co_ord_event_obj)
         // console.log(is_inside(markerArray[2].location, polygonCoords));
         let attd_std = '';
@@ -170,6 +172,7 @@
         console.log(attd_std);
 
       };
+
 
       function createPolygon(polygonCoords) {
         const polygon = new google.maps.Polygon({
@@ -184,19 +187,10 @@
         polygon.setMap(map);
         return polygon;
       }
-      function removeLine() {
-        const polygon = new google.maps.Polygon({
-          paths: [],
-          strokeColor: "#FF0000",
-          strokeOpacity: 0.8,
-          strokeWeight: 2,
-          fillColor: "#FF0000",
-          fillOpacity: 0.35,
-        });
-        polygon.setMap(map);
-      }
+      
     }
 
+  
     // Handles click events on a map, and adds a new point to the Polyline.
     function addLatLng(event) {
       const path = poly.getPath();
@@ -212,6 +206,7 @@
         icon: "https://img.icons8.com/external-kiranshastry-lineal-kiranshastry/64/000000/external-pin-interface-kiranshastry-lineal-kiranshastry-1.png"
       });
     }
+
 
     function is_inside(student_loc, vs) {
       // ray-casting algorithm based on
