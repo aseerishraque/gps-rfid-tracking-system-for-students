@@ -23,4 +23,5 @@ Route::group(['prefix' => "v1"], function (){
     Route::post('login', "api\ApiController@studentLogin");
     Route::post("store-gps/{student_id}", "api\ApiController@storeGPS");
     Route::get("store-student-rfid/{card_id}", "api\ApiController@storeRfidLog");
+    Route::get("fetch-gps-data", "api\ApiController@fetchGpsData");
 });
