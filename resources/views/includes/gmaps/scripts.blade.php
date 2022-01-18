@@ -1,7 +1,10 @@
 <script async defer
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBYf_ysF6IERRLE3SeQpb0wA-_F9vJD1s8&callback=initMap"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <script>
+   
     let map;
+    let markers = [];
     // Define the LatLng coordinates for the polygon's path.
     let polygonCoords = [
       // { lat: 22.363723, lng: 91.819684 },
@@ -11,28 +14,32 @@
     ];
     // marker array of object to store students
     let markerArray = [
-      {
-        location: { lat: 22.363544, lng: 91.819885 },
-        ImageIcon: "https://img.icons8.com/fluency/48/000000/student-male.png",
-        content: `<h3>Student 1</h3>`,
-        student_id: 1,
-        student_name: "Student 1"
-      },
-      {
-        location: { lat: 22.363639, lng: 91.819970 },
-        ImageIcon: "https://img.icons8.com/fluency/48/000000/student-male.png",
-        content: `<h3>Student 2</h3>`,
-        student_id: 2,
-        student_name: "Student 2"
-      },
-      {
-        location: { lat: 22.363810063065678, lng: 91.81981297784178 },
-        ImageIcon: "https://img.icons8.com/fluency/48/000000/student-male.png",
-        content: `<h3>Student 3</h3>`,
-        student_id: 3,
-        student_name: "Student 3"
-      }
+      // {
+      //   location: { lat: 22.363544, lng: 91.819885 },
+      //   ImageIcon: "https://img.icons8.com/fluency/48/000000/student-male.png",
+      //   content: `<h3>Student 1</h3>`,
+      //   student_id: 1,
+      //   student_name: "Student 1"
+      // },
+      // {
+      //   location: { lat: 22.363639, lng: 91.819970 },
+      //   ImageIcon: "https://img.icons8.com/fluency/48/000000/student-male.png",
+      //   content: `<h3>Student 2</h3>`,
+      //   student_id: 2,
+      //   student_name: "Student 2"
+      // },
+      // {
+      //   location: { lat: 22.363810063065678, lng: 91.81981297784178 },
+      //   ImageIcon: "https://img.icons8.com/fluency/48/000000/student-male.png",
+      //   content: `<h3>Student 3</h3>`,
+      //   student_id: 3,
+      //   student_name: "Student 3"
+      // }
     ];
+
+    // const axios = require('axios').default;
+    
+    
 
     function getCurrentLocation(){
         if (navigator.geolocation) {
@@ -62,12 +69,21 @@
           }
       }
 
-      console.log(getCurrentLocation());
+      function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+        infoWindow.setPosition(pos);
+        infoWindow.setContent(
+          browserHasGeolocation
+            ? "Error: The Geolocation service failed."
+            : "Error: Your browser doesn't support geolocation."
+        );
+        infoWindow.open(map);
+      }
+
+      // console.log(getCurrentLocation());
 
 
     function initMap() {
-
-
+     
       const currentLocation = getCurrentLocation();
       let options = {
         center: { lat: 22.363692, lng: 91.819875 },//demo location
@@ -107,6 +123,52 @@
       //get current location end
 
 
+      // setInterval(() => {
+      //   fetchStudentGpsData();
+      // }, 10000);
+                     
+      // fetchStudentGpsData();
+      // setTimeout(() => {
+      //   deleteMarkers();
+      // }, 5000);  
+      function fetchStudentGpsData(){
+        axios.get("{{ URL::to('api/v1/fetch-gps-data') }}")
+        .then(response=>{
+          // console.log(response.data.gps_data);
+          response.data.gps_data.forEach(item=>markerArray.push(item));
+          // markerArray = [...response.data.gps_data];
+          deleteMarkers();
+          for (let i = 0; i < markerArray.length; i++) {
+            addMarker(markerArray[i]);
+          }
+          console.log(markerArray);
+          
+          markerArray.length = 0;
+        })
+        .catch(err=> {
+          console.log(err);
+        });
+      }
+
+//Clear/Remove all markers
+      // Deletes all markers in the array by removing references to them.
+      function deleteMarkers() {
+        hideMarkers();
+        markers = [];
+        console.log("Deleted");
+      }
+
+      // Sets the map on all markers in the array.
+      function setMapOnAll(map) {
+        for (let i = 0; i < markers.length; i++) {
+          markers[i].setMap(map);
+        }
+      }
+
+      // Removes the markers from the map, but keeps them in the array.
+      function hideMarkers() {
+        setMapOnAll(null);
+      }
 
 
       function addMarker(property) {
@@ -135,11 +197,11 @@
             }, 1000);
           });
         }
+
+        markers.push(marker);
       }
 
-      for (let i = 0; i < markerArray.length; i++) {
-        addMarker(markerArray[i]);
-      }
+      
 
 
 
@@ -171,6 +233,21 @@
         // poly.setMap(null);
         console.log(attd_std);
 
+      };
+      let toggleFetch = 0;
+      document.getElementById("student-gps-fetch-control").onclick = function(){
+        fetchStudentGpsData();
+        // if(toggleFetch == 0){
+        //   setInterval(() => {
+        //     fetchStudentGpsData();
+        //     console.log("Fetching...");
+        //   }, 2000);
+        //   toggleFetch = 1;
+        // }else if(toggleFetch == 1){
+        //   fetchStudentGpsData();
+        //   console.log("Stopped Fetching!");
+        //   toggleFetch = 0;
+        // }
       };
 
 

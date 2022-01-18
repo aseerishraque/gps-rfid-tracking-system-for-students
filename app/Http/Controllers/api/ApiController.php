@@ -4,6 +4,7 @@ namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Classroom;
+use App\Models\Enrollment;
 use App\Models\RfidLog;
 use App\Models\StudentRfidCardInfo;
 use App\StudentGpsData;
@@ -109,6 +110,41 @@ class ApiController extends Controller
                 'error' => false
             ], 200);
         }
+    }
+
+    public function fetchGpsData(){
+        $students = Enrollment::join("student_gps_data", "student_gps_data.user_id", "enrollments.student_id")
+                                ->join("users", "users.id", "enrollments.student_id")
+                                ->select("student_gps_data.*", "users.name as name")
+                                ->get();
+        $gpsData = array();
+        $i=0;
+        foreach($students as $student){
+            $gpsData[$i]['id'] = $student->id;
+            $gpsData[$i]['lat'] = $student->lat;
+            $gpsData[$i]['lng'] = $student->lng;
+            $gpsData[$i]['updated_at'] = $student->updated_at;
+            $gpsData[$i]['created_at'] = $student->created_at;
+
+            $gpsData[$i]['student_id'] = $student->user_id;
+            $gpsData[$i]['location']['lat'] = floatval($student->lat);
+            $gpsData[$i]['location']['lng'] = floatval($student->lng);
+            $gpsData[$i]['ImageIcon'] = "https://img.icons8.com/fluency/48/000000/student-male.png";
+            $gpsData[$i]['content'] = "<span>".$student->name."</span>";
+            $gpsData[$i]['student_name'] = $student->name;
+            $i++;
+        }
+        if(!is_null($students))
+            return response()->json([
+                'message' => "Student GPS Data retreived",
+                "error" => false,
+                "gps_data" => $gpsData
+            ], 200);
+        else
+            return response()->json([
+                'message' => "No Student Data Found!",
+                "error" => true
+            ], 400);
     }
 
 }
