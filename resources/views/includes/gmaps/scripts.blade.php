@@ -135,15 +135,15 @@
         axios.get("{{ URL::to('api/v1/fetch-gps-data') }}")
         .then(response=>{
           // console.log(response.data.gps_data);
+          markerArray.length = 0;
           response.data.gps_data.forEach(item=>markerArray.push(item));
           // markerArray = [...response.data.gps_data];
+          
           deleteMarkers();
           for (let i = 0; i < markerArray.length; i++) {
             addMarker(markerArray[i]);
           }
           console.log(markerArray);
-          
-          markerArray.length = 0;
         })
         .catch(err=> {
           console.log(err);
@@ -226,12 +226,7 @@
         // Construct the polygon.
         
         polygon_shape = createPolygon(polygonCoords);
-        //each is_instide(Student_location, polygon_co_ord_event_obj)
-        // console.log(is_inside(markerArray[2].location, polygonCoords));
-        let attd_std = '';
-        attd_std = [...markerArray.filter(item => is_inside(item.location, polygonCoords))];
-        // poly.setMap(null);
-        console.log(attd_std);
+       
 
       };
       let toggleFetch = 0;
@@ -248,6 +243,16 @@
         //   console.log("Stopped Fetching!");
         //   toggleFetch = 0;
         // }
+      };
+
+
+      //take attendance
+      document.getElementById("take-attendance").onclick = function(){
+ //each is_instide(Student_location, polygon_co_ord_event_obj)
+        // console.log(is_inside(markerArray[2].location, polygonCoords));
+        let attd_std = '';
+        attd_std = [...markerArray.filter(item => is_inside(item.location, polygonCoords))];
+        console.log(attd_std);
       };
 
 
