@@ -67,7 +67,7 @@ class ClassroomController extends Controller
         $user->password = Hash::make($request->password);
         $user->save();
 
-        
+
         $user->assignRole('student');
 
         session()->flash('success', 'Student has been registered !!');
@@ -75,7 +75,7 @@ class ClassroomController extends Controller
     }
 
     public function trackStudents($classroom_id){
-        return view("pages.classrooms.track");
+        return view("pages.classrooms.track", compact('classroom_id'));
     }
 
     public function rfidLogs()

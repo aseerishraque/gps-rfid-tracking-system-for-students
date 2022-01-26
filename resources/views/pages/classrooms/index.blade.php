@@ -27,7 +27,7 @@
                         @can("Admin.Take Attendance")
                         <div class="icon-container">
                             <span class="ti-user text-white"></span>
-                            <span class="icon-name"> <a href="{{ route('attendance.get', $classroom->id) }}" class="text-white">Take Attendance</a></span>
+                            <span class="icon-name"> <a href="{{ route('attendance.get', $classroom->id) }}" class="text-white">Manual Attendance</a></span>
                         </div>
                         @endcan
                         @can("Admin.Track Students")
@@ -122,7 +122,7 @@
                 </div>
             </div>
             </div>
-            
+
         </div>
     @endif
 </div>

@@ -3,11 +3,13 @@
 namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Attendance;
 use App\Models\Classroom;
 use App\Models\Enrollment;
 use App\Models\RfidLog;
 use App\Models\StudentRfidCardInfo;
 use App\StudentGpsData;
+use App\User;
 use Carbon\Carbon;
 use Faker\Factory;
 use Illuminate\Http\Request;
@@ -145,6 +147,80 @@ class ApiController extends Controller
                 'message' => "No Student Data Found!",
                 "error" => true
             ], 400);
+    }
+
+    public function getRfidsToday()
+    {
+        $logs = RfidLog::whereDate("created_at", Carbon::today())->get();
+        return response()->json([
+           'error' => false,
+           "logs" => $logs
+        ]);
+    }
+
+    public function fetchRfidGpsData()
+    {
+        $students = Enrollment::join("student_gps_data", "student_gps_data.user_id", "enrollments.student_id")
+            ->join("users", "users.id", "enrollments.student_id")
+            ->join("rfid_logs", "rfid_logs.student_id", "enrollments.student_id")
+            ->select("student_gps_data.*", "users.name as name")
+            ->get();
+        $gpsData = array();
+        $i=0;
+        foreach($students as $student){
+            $gpsData[$i]['id'] = $student->id;
+            $gpsData[$i]['lat'] = $student->lat;
+            $gpsData[$i]['lng'] = $student->lng;
+            $gpsData[$i]['updated_at'] = $student->updated_at;
+            $gpsData[$i]['created_at'] = $student->created_at;
+
+            $gpsData[$i]['student_id'] = $student->user_id;
+            $gpsData[$i]['location']['lat'] = floatval($student->lat);
+            $gpsData[$i]['location']['lng'] = floatval($student->lng);
+            $gpsData[$i]['ImageIcon'] = "https://img.icons8.com/fluency/48/000000/student-male.png";
+            $gpsData[$i]['content'] = "<span>".$student->name."</span>";
+            $gpsData[$i]['student_name'] = $student->name;
+            $i++;
+        }
+        if(!is_null($students))
+            return response()->json([
+                'message' => "Student GPS Data retreived",
+                "error" => false,
+                "gps_data" => $gpsData
+            ], 200);
+        else
+            return response()->json([
+                'message' => "No Student Data Found!",
+                "error" => true
+            ], 400);
+    }
+
+
+    public function storeStudentGpsAttendance(Request $request, $classroom_id)
+    {
+        $students = User::role('student')->join('enrollments', 'enrollments.student_id', 'users.id')
+            ->where('enrollments.classroom_id', $id)
+            ->get();
+        foreach ($students as $student)
+        {
+            $check = Attendance::where('student_id', $student->student_id)
+                ->where('date', $request->date)
+                ->first();
+            $obj = new Attendance();
+            if (isset($check))
+                $obj = $check;
+            $obj->classroom_id = $id;
+            $obj->student_id = $student->student_id;
+            $obj->date = $request->date;
+            if (isset($request->present[$student->student_id]))
+                $obj->is_present = 1;
+            else
+                $obj->is_present = 0;
+            $obj->save();
+        }
+        return back()->with([
+            'success' => 'Attendance Taken for Date: '.$request->date
+        ]);
     }
 
 }

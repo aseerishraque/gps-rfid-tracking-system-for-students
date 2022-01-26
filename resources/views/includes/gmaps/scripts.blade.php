@@ -2,7 +2,7 @@
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBYf_ysF6IERRLE3SeQpb0wA-_F9vJD1s8&callback=initMap"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <script>
-   
+
     let map;
     let markers = [];
     // Define the LatLng coordinates for the polygon's path.
@@ -38,8 +38,8 @@
     ];
 
     // const axios = require('axios').default;
-    
-    
+
+
 
     function getCurrentLocation(){
         if (navigator.geolocation) {
@@ -50,7 +50,7 @@
                   lng: position.coords.longitude,
                 };
 
-                  
+
                 // console.log("current location: ", pos.lat);
 
                 infoWindow.setPosition(pos);
@@ -83,7 +83,7 @@
 
 
     function initMap() {
-     
+
       const currentLocation = getCurrentLocation();
       let options = {
         center: { lat: 22.363692, lng: 91.819875 },//demo location
@@ -101,14 +101,14 @@
                   lng: position.coords.longitude,
                 };
 
-                  
+
                 // console.log("current location: ", pos.lat);
 
                 infoWindow.setPosition(pos);
                 infoWindow.setContent("Classroom Location");
                 infoWindow.open(map);
                 map.setCenter(pos);
-                
+
               },
               () => {
                 handleLocationError(true, infoWindow, map.getCenter());
@@ -118,7 +118,7 @@
             // Browser doesn't support Geolocation
             handleLocationError(false, infoWindow, map.getCenter());
           }
-      
+
 
       //get current location end
 
@@ -126,29 +126,57 @@
       // setInterval(() => {
       //   fetchStudentGpsData();
       // }, 10000);
-                     
+
       // fetchStudentGpsData();
       // setTimeout(() => {
       //   deleteMarkers();
-      // }, 5000);  
+      // }, 5000);
       function fetchStudentGpsData(){
-        axios.get("{{ URL::to('api/v1/fetch-gps-data') }}")
+          let checkbox = document.getElementById("is_rfid");
+          let is_checked = 0;
+          if(checkbox.checked === true){
+              is_checked = true;
+          }else{
+              is_checked = false;
+          }
+          // console.log(is_checked);
+
+
+          // console.log("is_rfid: ", is_checked);
+          let fetch_api = ''
+          if (is_checked){
+              fetch_api = "{{ URL::to('api/v1/fetch-rfid-gps-data') }}";
+          }else{
+              fetch_api = "{{ URL::to('api/v1/fetch-gps-data') }}";
+          }
+
+        axios.get(fetch_api)
         .then(response=>{
           // console.log(response.data.gps_data);
           markerArray.length = 0;
           response.data.gps_data.forEach(item=>markerArray.push(item));
           // markerArray = [...response.data.gps_data];
-          
+
           deleteMarkers();
           for (let i = 0; i < markerArray.length; i++) {
             addMarker(markerArray[i]);
           }
           console.log(markerArray);
+
+          //add set boundary button
+            displaySetBoundaryButton();
         })
         .catch(err=> {
           console.log(err);
         });
       }
+
+        function displaySetBoundaryButton() {
+          document.getElementById("create-polygon").classList.remove("d-none");
+        }
+        function displayTakeAttendanceButton() {
+            document.getElementById("take-attendance").classList.remove("d-none");
+        }
 
 //Clear/Remove all markers
       // Deletes all markers in the array by removing references to them.
@@ -201,7 +229,7 @@
         markers.push(marker);
       }
 
-      
+
 
 
 
@@ -224,25 +252,14 @@
       document.getElementById("create-polygon").onclick = function () {
 
         // Construct the polygon.
-        
-        polygon_shape = createPolygon(polygonCoords);
-       
 
+        polygon_shape = createPolygon(polygonCoords);
+
+        displayTakeAttendanceButton();
       };
       let toggleFetch = 0;
       document.getElementById("student-gps-fetch-control").onclick = function(){
         fetchStudentGpsData();
-        // if(toggleFetch == 0){
-        //   setInterval(() => {
-        //     fetchStudentGpsData();
-        //     console.log("Fetching...");
-        //   }, 2000);
-        //   toggleFetch = 1;
-        // }else if(toggleFetch == 1){
-        //   fetchStudentGpsData();
-        //   console.log("Stopped Fetching!");
-        //   toggleFetch = 0;
-        // }
       };
 
 
@@ -253,7 +270,21 @@
         let attd_std = '';
         attd_std = [...markerArray.filter(item => is_inside(item.location, polygonCoords))];
         console.log(attd_std);
+
+        axios.post("{{ URL::to("store-student-gps-attendance/".$classroom_id) }}", attd_std)
+          .then(res=>{
+              console.log(res);
+          })
+          .catch(err=>{
+              console.log(err);
+          })
+
       };
+
+
+
+
+
 
 
       function createPolygon(polygonCoords) {
@@ -269,10 +300,10 @@
         polygon.setMap(map);
         return polygon;
       }
-      
+
     }
 
-  
+
     // Handles click events on a map, and adds a new point to the Polyline.
     function addLatLng(event) {
       const path = poly.getPath();
