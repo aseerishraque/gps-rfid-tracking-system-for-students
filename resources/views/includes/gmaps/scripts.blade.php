@@ -1,5 +1,5 @@
 <script async defer
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBYf_ysF6IERRLE3SeQpb0wA-_F9vJD1s8&callback=initMap"></script>
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDYpYr9fw5AqhfSV1zRGXnVEHV3_f2n4SA&callback=initMap"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <script>
 
@@ -161,7 +161,7 @@
           for (let i = 0; i < markerArray.length; i++) {
             addMarker(markerArray[i]);
           }
-          console.log(markerArray);
+          // console.log(markerArray);
 
           //add set boundary button
             displaySetBoundaryButton();
@@ -183,7 +183,7 @@
       function deleteMarkers() {
         hideMarkers();
         markers = [];
-        console.log("Deleted");
+        // console.log("Deleted");
       }
 
       // Sets the map on all markers in the array.
@@ -269,11 +269,16 @@
         // console.log(is_inside(markerArray[2].location, polygonCoords));
         let attd_std = '';
         attd_std = [...markerArray.filter(item => is_inside(item.location, polygonCoords))];
-        console.log(attd_std);
+        // console.log(attd_std);
 
-        axios.post("{{ URL::to("store-student-gps-attendance/".$classroom_id) }}", attd_std)
+        let attd_date =  document.getElementById("attd_date").value;
+        axios.post("{{ URL::to("api/v1/store-student-gps-attendance/".$classroom_id) }}", {
+            "date" : attd_date,
+            "students" : attd_std
+        })
           .then(res=>{
-              console.log(res);
+              // console.log(res);
+              toastr.success(res.data.success, 'Success');
           })
           .catch(err=>{
               console.log(err);

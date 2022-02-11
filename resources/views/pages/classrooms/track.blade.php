@@ -15,6 +15,9 @@
                         </div>
                         <input value="Do you want check RFID of Students?" readonly type="text" class="form-control" aria-label="Text input with checkbox">
                     </div>
+                    <div class="form-group w-25 float-left mr-3">
+                        <input id="attd_date" value="{{ date('Y-m-d') }}" type="date" class="form-control">
+                    </div>
                     <button class="btn btn-primary mb-2" id="student-gps-fetch-control">
                         <i class="fa fa-map-marker-alt mr-2"></i>
                         1. Fetch Student GPS

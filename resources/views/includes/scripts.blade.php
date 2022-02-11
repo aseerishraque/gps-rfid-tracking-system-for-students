@@ -38,5 +38,31 @@
 <!-- others plugins -->
 <script src="{{ asset('assets/js/plugins.js') }}"></script>
 <script src="{{ asset('assets/js/scripts.js') }}"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+<script>
+    toastr.options = {
+        "closeButton": false,
+        "debug": false,
+        "newestOnTop": false,
+        "progressBar": false,
+        "positionClass": "toast-top-right",
+        "preventDuplicates": false,
+        "onclick": null,
+        "showDuration": "300",
+        "hideDuration": "1000",
+        "timeOut": "5000",
+        "extendedTimeOut": "1000",
+        "showEasing": "swing",
+        "hideEasing": "linear",
+        "showMethod": "fadeIn",
+        "hideMethod": "fadeOut"
+    }
 
+    @if(session()->has('success'))
+        toastr.success('{{ session()->get('success') }}', 'Success');
+    @endif
+    @if(session()->has('error'))
+        toastr.error('{{ session()->get('error') }}', 'Error');
+    @endif
+</script>
 @yield('custom-scripts')

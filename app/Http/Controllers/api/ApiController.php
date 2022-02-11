@@ -198,29 +198,30 @@ class ApiController extends Controller
 
     public function storeStudentGpsAttendance(Request $request, $classroom_id)
     {
-        $students = User::role('student')->join('enrollments', 'enrollments.student_id', 'users.id')
-            ->where('enrollments.classroom_id', $id)
-            ->get();
-        foreach ($students as $student)
+//        return response()->json([
+//           'students_req' => $request->students[0],
+//            'date' => $request->date
+//        ], 200);
+//        $students = User::role('student')->join('enrollments', 'enrollments.student_id', 'users.id')
+//            ->where('enrollments.classroom_id', $classroom_id)
+//            ->get();
+        foreach ($request->students as $student)
         {
-            $check = Attendance::where('student_id', $student->student_id)
+            $check = Attendance::where('student_id', $student['student_id'])
                 ->where('date', $request->date)
                 ->first();
             $obj = new Attendance();
             if (isset($check))
                 $obj = $check;
-            $obj->classroom_id = $id;
-            $obj->student_id = $student->student_id;
+            $obj->classroom_id = $classroom_id;
+            $obj->student_id = $student['student_id'];
             $obj->date = $request->date;
-            if (isset($request->present[$student->student_id]))
-                $obj->is_present = 1;
-            else
-                $obj->is_present = 0;
+            $obj->is_present = 1;
             $obj->save();
         }
-        return back()->with([
+        return response()->json([
             'success' => 'Attendance Taken for Date: '.$request->date
-        ]);
+        ], 200);
     }
 
 }
