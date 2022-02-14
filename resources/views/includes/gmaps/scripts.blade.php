@@ -3,6 +3,9 @@
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <script>
 
+
+      // Paid gmaps AIzaSyAkxcFq3HUIKe0adll-UXWQLeqKMkAtpS4
+      // my gmaps AIzaSyDYpYr9fw5AqhfSV1zRGXnVEHV3_f2n4SA
     let map;
     let markers = [];
     // Define the LatLng coordinates for the polygon's path.
