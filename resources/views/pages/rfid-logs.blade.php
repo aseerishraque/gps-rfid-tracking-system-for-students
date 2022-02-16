@@ -7,36 +7,39 @@
         <div class="col-md-10">
             <div class="card">
                 <div class="card-body">
-                    <div class="row align-items-center justify-content-center">
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label for="">Classroom:</label>
-                                <select name="classroom" class="form-control">
-                                    <option value="">---Select Classroom---</option>
-                                    <option value="">---Class - 10</option>
-                                    <option value="">---Class - 9</option>
-                                    <option value="">---Class - 6</option>
-                                </select>
+                    <form action="{{ route('rfid.logs.filter') }}" method="post">
+                        @csrf
+                        <div class="row align-items-center justify-content-center">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="">Classroom:</label>
+                                    <select name="classroom_id" class="form-control">
+                                        <option value="">---Select Classroom---</option>
+                                        @foreach($classrooms as $classroom)
+                                            <option value="{{ $classroom->id }}"> --- {{ $classroom->name }} ---</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="">Date Start</label>
+                                    <input value="{{ date('Y-m-d') }}" type="date" class="form-control" name="start_date">
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="">Date End</label>
+                                    <input value="{{ date('Y-m-d') }}" type="date" class="form-control" name="end_date">
+                                </div>
+                            </div>
+                            <div class="col-md-1">
+                                <div class="form-group">
+                                    <button type="button" class="btn btn-primary">Filter</button>
+                                </div>
                             </div>
                         </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label for="">Date Start</label>
-                                <input type="date" class="form-control" name="start_date">
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label for="">Date End</label>
-                                <input type="date" class="form-control" name="end_date">
-                            </div>
-                        </div>
-                        <div class="col-md-1">
-                            <div class="form-group">
-                                <button type="button" class="btn btn-primary">Filter</button>
-                            </div>
-                        </div>
-                    </div>
+                    </form>
 
                     <div class="single-table">
                         <div class="table-responsive">
@@ -52,22 +55,16 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr>
-                                    <th scope="row">1</th>
-                                    <th scope="row">2312</th>
-                                    <th scope="row">mark.12353423</th>
-                                    <td>Mark</td>
-                                    <td>09/07/2018 2:16AM</td>
-                                    <td>09/07/2018 2:16AM</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">1</th>
-                                    <th scope="row">2312</th>
-                                    <th scope="row">mark.12353423</th>
-                                    <td>Mark</td>
-                                    <td>09/07/2018 2:16AM</td>
-                                    <td>09/07/2018 2:16AM</td>
-                                </tr>
+                                @foreach($logs as $log)
+                                    <tr>
+                                        <th scope="row">{{ $loop->index + 1 }}</th>
+                                        <th scope="row">{{ $log->id }}</th>
+                                        <th scope="row">{{ $log->username }}</th>
+                                        <td>{{ $log->name }}</td>
+                                        <td>{{ $log->in_time }}</td>
+                                        <td>{{ $log->out_time }}</td>
+                                    </tr>
+                                @endforeach
                                 </tbody>
                             </table>
                         </div>

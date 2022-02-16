@@ -80,9 +80,26 @@ class ClassroomController extends Controller
 
     public function rfidLogs()
     {
-        $logs = RfidLog::all();
+        $logs = RfidLog::join("users", "users.id", "rfid_logs.student_id")
+                        ->select("rfid_logs.*", "users.name", "users.username")
+                        ->get();
+        $classrooms = Classroom::select("classrooms.*")
+                                ->get();
 
-        return view('pages.rfid-logs', compact("logs"));
+        return view('pages.rfid-logs', compact("logs", "classrooms"));
+    }
+
+    public function rfidLogsFilter(Request $request)
+    {
+        $logs = RfidLog::join("users", "users.id", "rfid_logs.student_id")
+                        ->join("enrollments", "enrollments.classroom_id", "rfid_logs.student_id")
+                        ->select("rfid_logs.*", "users.name", "users.username")
+                        ->where("enrollments.classroom_id", $request->classroom_id)
+                        ->get();
+        $classrooms = Classroom::select("classrooms.*")
+                                ->get();
+
+        return view('pages.rfid-logs', compact("logs","classrooms"));
     }
 
     public function requests()

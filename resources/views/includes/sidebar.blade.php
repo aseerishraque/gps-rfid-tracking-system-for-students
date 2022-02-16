@@ -11,7 +11,7 @@
             <nav>
                 <ul class="metismenu" id="menu">
                     <li class="{{ Route::is('dashboard.admin') ? 'active' : '' }}">
-                        <a href="{{ route('dashboard.admin') }}"><i class="ti-dashboard"></i><span>Dashboard</span></a>
+                        <a href="{{ route('admin.classrooms') }}"><i class="ti-dashboard"></i><span>Dashboard</span></a>
                     </li>
                     <li class="{{ Route::is('admin.classrooms') || Route::is('classrooms.create') ? 'active' : '' }}">
                         <a href="javascript:void(0)" aria-expanded="true"><i class="ti-dashboard"></i><span>Classrooms</span></a>
@@ -31,7 +31,7 @@
                         <ul class="collapse">
                             <li class="{{ Route::is('reports.daily') ? 'active' : '' }}"><a href="{{ route('reports.daily') }}">Daily</a></li>
                             <li class="{{ Route::is('reports.monthly') ? 'active' : '' }}"><a href="{{ route('reports.monthly') }}">Monthly</a></li>
-                            <li class="{{ Route::is('reports.yearly') ? 'active' : '' }}"><a href="{{ route('reports.yearly') }}">Yearly</a></li>
+{{--                            <li class="{{ Route::is('reports.yearly') ? 'active' : '' }}"><a href="{{ route('reports.yearly') }}">Yearly</a></li>--}}
                         </ul>
                     </li>
                     @endcan
@@ -57,17 +57,17 @@
                     </li>
                     @endcan
                     @can("Admin.Users")
-                    <li class="{{ Route::is('guardians.list') ||
-                                  Route::is('students.list') ? 'active' : '' }}">
-                        <a href="javascript:void(0)" aria-expanded="true"><i class="ti-layout-sidebar-left"></i>
-                            <span>
-                              Non-Admin Users
-                            </span></a>
-                        <ul class="collapse">
-                            <li class="{{ Route::is('students.list') ? 'active' : '' }}"><a href="{{ route('students.list') }}">Student List <span class="badge badge-light">4</span></a></li>
-                            <li class="{{ Route::is('guardians.list') ? 'active' : '' }}"><a href="{{ route('guardians.list') }}">Guardian List <span class="badge badge-light">4</span></a></li>
-                        </ul>
-                    </li>
+{{--                    <li class="{{ Route::is('guardians.list') ||--}}
+{{--                                  Route::is('students.list') ? 'active' : '' }}">--}}
+{{--                        <a href="javascript:void(0)" aria-expanded="true"><i class="ti-layout-sidebar-left"></i>--}}
+{{--                            <span>--}}
+{{--                              Non-Admin Users--}}
+{{--                            </span></a>--}}
+{{--                        <ul class="collapse">--}}
+{{--                            <li class="{{ Route::is('students.list') ? 'active' : '' }}"><a href="{{ route('students.list') }}">Student List <span class="badge badge-light">4</span></a></li>--}}
+{{--                            <li class="{{ Route::is('guardians.list') ? 'active' : '' }}"><a href="{{ route('guardians.list') }}">Guardian List <span class="badge badge-light">4</span></a></li>--}}
+{{--                        </ul>--}}
+{{--                    </li>--}}
                     @endcan
                     @can("Admin.Roles and Permission")
                     <li class="{{ Route::is('roles.index') ||

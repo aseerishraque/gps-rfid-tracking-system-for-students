@@ -37,7 +37,7 @@
                                     <th scope="col">Name</th>
                                     <th scope="col">Classroom</th>
                                     <th scope="col">Date</th>
-                                    <th scope="col">View</th>
+{{--                                    <th scope="col">View</th>--}}
                                     <th scope="col">Approve</th>
                                 </tr>
                                 </thead>
@@ -49,9 +49,9 @@
                                     <td>{{ $req->student_name }}</td>
                                     <td>{{ $req->classroom_name }}</td>
                                     <td>{{ $req->start_date.'-'.$req->end_date }}</td>
-                                    <td>
-                                        <a class="btn btn-primary" href="#" role="button">View</a>
-                                    </td>
+{{--                                    <td>--}}
+{{--                                        <a class="btn btn-primary" href="#" role="button">View</a>--}}
+{{--                                    </td>--}}
                                     <td>
                                         <!-- Button trigger modal -->
                                         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#aprove_{{ $req->id }}">

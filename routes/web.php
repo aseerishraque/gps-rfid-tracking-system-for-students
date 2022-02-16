@@ -45,6 +45,7 @@ Route::middleware(['is_logged_in'])->group(function () {
             Route::get('yearly', 'ReportsController@yearly')->name('reports.yearly');
         });
         Route::get('rfid-logs', 'ClassroomController@rfidLogs')->name('rfid.logs');
+        Route::post('rfid-logs', 'ClassroomController@rfidLogsFilter')->name('rfid.logs.filter');
         Route::group(['prefix' => "leave-approvals"], function (){
             Route::get('requests', 'ClassroomController@requests')->name('leave.requests');
             Route::get('approves', 'ClassroomController@approves')->name('leave.approves');
@@ -61,8 +62,6 @@ Route::middleware(['is_logged_in'])->group(function () {
         Route::post("join-classroom", "ClassroomController@joinClassroom")->name("classroom.join");
     });//End of Admin Routes
 
-
-    
 
 //    Start of Student Routes
     Route::group(['prefix' => "students"], function (){
