@@ -81,7 +81,10 @@ class ApiController extends Controller
 
 
     public function storeRfidLog($card_id){
-        $student = StudentRfidCardInfo::where("card_id", $card_id)->first();
+        $student = StudentRfidCardInfo::where("student_rfid_card_infos.card_id", $card_id)
+                                    ->join("users", "users.id", "student_rfid_card_infos.student_id")
+                                    ->select("users.*", "student_rfid_card_infos.student_id")
+                                    ->first();
         if(!is_null($student)){
             $in_time_data = RfidLog::whereDate("created_at", Carbon::today())
                                     ->where("student_id", $student->student_id)
@@ -93,7 +96,9 @@ class ApiController extends Controller
                 return response()->json([
                     "message" => $student->name." has exited!",
                     'error' => false,
-                    "data" =>$in_time_data
+                    "status" => "exited",
+                    "data" =>$in_time_data,
+                    "student" => $student
                 ], 200);
             }else{
                 $obj = new RfidLog();
@@ -103,7 +108,9 @@ class ApiController extends Controller
                 return response()->json([
                     "message" => $student->name." has entered!",
                     'error' => false,
-                    "data" =>$obj
+                    "status" => "entered",
+                    "data" =>$obj,
+                    "student" => $student
                 ], 200);
             }
         }else{
