@@ -97,7 +97,7 @@ class ApiController extends Controller
                     "message" => $student->name." has exited!",
                     'error' => false,
                     "status" => "exited",
-                    "data" =>$in_time_data,
+                    "data" => $in_time_data,
                     "student" => $student
                 ], 200);
             }else{
@@ -116,6 +116,7 @@ class ApiController extends Controller
         }else{
             return response()->json([
                 "message" => "RFID not registered!",
+                "status" => "Unregistered",
                 'error' => false
             ], 200);
         }
