@@ -1,8 +1,9 @@
 import { StatusBar } from "expo-status-bar";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 // https://react-native-async-storage.github.io/async-storage/docs/usage/
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import * as Location from 'expo-location';
 
 import {
     StyleSheet,
@@ -15,10 +16,33 @@ import {
     Alert,
 } from "react-native";
 
+
+
 export default function App() {
     const [username, onChangeText] = React.useState("");
     const [password, onChangePass] = React.useState("");
     let is_logged_in = true;
+
+
+
+    const [location, setLocation] = useState(null);
+    const [errorMsg, setErrorMsg] = useState(null);
+  
+    useEffect(() => {
+      (async () => {
+        let { status } = await Location.requestForegroundPermissionsAsync();
+        if (status !== 'granted') {
+          setErrorMsg('Permission to access location was denied');
+          return;
+        }
+  
+        let location = await Location.getCurrentPositionAsync({});
+        console.log("Location: ", location.coords);
+        setLocation(location);
+      })();
+      
+    }, []);
+
     const myfun = async () => {
         Alert.alert("Auth", `username: ${username}, Pass: ${password}`);
         storeData(username);
