@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 // https://react-native-async-storage.github.io/async-storage/docs/usage/
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as Location from 'expo-location';
+import axios from "axios";
 
 import {
     StyleSheet,
@@ -15,6 +16,7 @@ import {
     TouchableOpacity,
     Alert,
 } from "react-native";
+import { Axios } from "axios";
 
 
 
@@ -44,11 +46,32 @@ export default function App() {
     }, []);
 
     const myfun = async () => {
-        Alert.alert("Auth", `username: ${username}, Pass: ${password}`);
+        alert("Auth", `username: ${username}, Pass: ${password}`);
         storeData(username);
         // let username_local = await AsyncStorage.getItem('@user_key');
         // console.log("user: ", username_local);
         getData().then(res => console.log("Data user: ", res));
+    }
+
+    const authLogin= () => {
+        // axios.post("https://jsonplaceholder.typicode.com/posts", {
+        //     "title": "foo",
+        //     "body": "bar",
+        //     "userId": 1
+        // })
+        // .then(response=>{
+        //     console.log(response.data);
+        // })
+        // .catch(err=>console.log(err))
+        
+        axios.post("http://192.168.0.102/gps-rfid-tracking-system-for-students/public/api/v1/login", {
+            "username" : username,
+            "password": password
+        })
+        .then(response=>{
+            console.log(response.data);
+        })
+        .catch(()=>console.log("Wrong Username/Password"))
     }
 
     const storeData = async (value) => {
@@ -102,7 +125,7 @@ export default function App() {
                     <Text style={styles.forgot_button}>Forgot Password?</Text>
                 </TouchableOpacity> */}
 
-                    <TouchableOpacity onPress={myfun} style={styles.loginBtn}>
+                    <TouchableOpacity onPress={authLogin} style={styles.loginBtn}>
                         <Text style={styles.loginText}>LOGIN</Text>
                     </TouchableOpacity>
                 </>
