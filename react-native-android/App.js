@@ -23,27 +23,47 @@ import { Axios } from "axios";
 export default function App() {
     const [username, onChangeText] = React.useState("");
     const [password, onChangePass] = React.useState("");
-    let is_logged_in = true;
+    const [is_logged_in, setLoginStatus] = React.useState(false);
+    const [user_id, changeUserId] = React.useState(null);
 
 
+    const domain = "http://192.168.1.40/gps-rfid-tracking-system-for-students/public";
 
     const [location, setLocation] = useState(null);
     const [errorMsg, setErrorMsg] = useState(null);
-  
+
     useEffect(() => {
-      (async () => {
-        let { status } = await Location.requestForegroundPermissionsAsync();
-        if (status !== 'granted') {
-          setErrorMsg('Permission to access location was denied');
-          return;
-        }
-  
-        let location = await Location.getCurrentPositionAsync({});
-        console.log("Location: ", location.coords);
-        setLocation(location);
-      })();
-      
+        (async () => {
+            let { status } = await Location.requestForegroundPermissionsAsync();
+            if (status !== 'granted') {
+                setErrorMsg('Permission to access location was denied');
+                return;
+            }
+
+            let location = await Location.getCurrentPositionAsync({});
+            // console.log("Location: ", location.coords);
+            setLocation(location);
+            reloadApp();
+            if (is_logged_in)
+                storeUserGps(location.coords);
+        })();
+
     }, []);
+
+    const reloadApp = () => {
+        try {
+            getData().then(res => {
+                if (res.id != "undefined")
+                    setLoginStatus(false);
+                console.log(res)
+
+            });
+
+        } catch (e) {
+
+        }
+
+    }
 
     const myfun = async () => {
         alert("Auth", `username: ${username}, Pass: ${password}`);
@@ -53,7 +73,7 @@ export default function App() {
         getData().then(res => console.log("Data user: ", res));
     }
 
-    const authLogin= () => {
+    const authLogin = () => {
         // axios.post("https://jsonplaceholder.typicode.com/posts", {
         //     "title": "foo",
         //     "body": "bar",
@@ -63,31 +83,59 @@ export default function App() {
         //     console.log(response.data);
         // })
         // .catch(err=>console.log(err))
-        
-        axios.post("http://192.168.0.102/gps-rfid-tracking-system-for-students/public/api/v1/login", {
-            "username" : username,
+
+        axios.post(domain + "/api/v1/login", {
+            "username": username,
             "password": password
         })
-        .then(response=>{
-            console.log(response.data);
-        })
-        .catch(()=>console.log("Wrong Username/Password"))
+            .then(response => {
+                // console.log(response.data.user);
+                storeData(response.data.user);
+                setLoginStatus(true);
+                // console.log("userData: ", await getData());
+            })
+            .catch(() => console.log("Username/Password is wrong!"))
     }
+
+    const logOut = async () => {
+        try {
+            await AsyncStorage.clear();
+            setLoginStatus(false);
+        } catch (e) {
+            // clear error
+        }
+        console.log('Logged Out!')
+    }
+
 
     const storeData = async (value) => {
         try {
-            await AsyncStorage.setItem('@user_key', value)
+            const jsonValue = JSON.stringify(value)
+            await AsyncStorage.setItem('userData', jsonValue)
         } catch (e) {
             // saving error
         }
     }
 
+    const setObjectValue = async (value) => {
+        try {
+            const jsonValue = JSON.stringify(value)
+            await AsyncStorage.setItem('key', jsonValue)
+        } catch (e) {
+            // save error
+        }
+
+        console.log('Done.')
+    }
+
+
     const getData = async () => {
         try {
-            const value = await AsyncStorage.getItem('@user_key')
-            if (value !== null) {
+            const jsonString = await AsyncStorage.getItem('userData')
+            const obj = JSON.parse(jsonString);
+            if (obj !== null) {
                 // value previously stored
-                return value;
+                return obj;
             }
         } catch (e) {
             // error reading value
@@ -95,11 +143,29 @@ export default function App() {
         }
     }
 
+    const storeUserGps = (location) => {
+        setInterval(() => {
+            getData().then(res => {
+                // console.log("user_id: ", res.id);
+                // console.log("location.latitude: ", location.latitude);
+                // console.log("location.longitude: ", location.longitude);
+                axios.post(domain + "/api/v1/store-gps/" + res.id, {
+                    "lat": location.latitude,
+                    "lng": location.longitude
+                })
+                    .then(response => {
+                        console.log(response.data);
+                    })
+                    .catch(e => console.log(e))
+            });
+        }, 3000);
+    }
+
     return (
         <View style={styles.container}>
             {/* <Image style={styles.image} source={require("./assets/log2.png")} /> */}
 
-            {is_logged_in &&
+            {!is_logged_in &&
                 <>
                     <StatusBar style="auto" />
                     <View style={styles.inputView}>
@@ -131,9 +197,12 @@ export default function App() {
                 </>
             }
 
-            {!is_logged_in &&
+            {is_logged_in &&
                 <>
                     <Text>You have successfully Logged in!</Text>
+                    <TouchableOpacity onPress={logOut} style={styles.loginBtn}>
+                        <Text style={styles.loginText}>LOG OUT</Text>
+                    </TouchableOpacity>
                 </>
             }
 
@@ -183,6 +252,6 @@ const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "center",
         marginTop: 40,
-        backgroundColor: "#29a8cf",
+        backgroundColor: "#29a8cf"
     },
 });
