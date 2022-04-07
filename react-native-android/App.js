@@ -44,8 +44,7 @@ export default function App() {
             // console.log("Location: ", location.coords);
             setLocation(location);
             reloadApp();
-            if (is_logged_in)
-                storeUserGps(location.coords);
+            storeUserGps(location.coords);
         })();
 
     }, []);
@@ -53,10 +52,11 @@ export default function App() {
     const reloadApp = () => {
         try {
             getData().then(res => {
-                if (res.id != "undefined")
-                    setLoginStatus(false);
+                if (res.status != 400) {
+                    onChangeText(res.username);
+                    setLoginStatus(true);
+                }
                 console.log(res)
-
             });
 
         } catch (e) {
@@ -74,25 +74,14 @@ export default function App() {
     }
 
     const authLogin = () => {
-        // axios.post("https://jsonplaceholder.typicode.com/posts", {
-        //     "title": "foo",
-        //     "body": "bar",
-        //     "userId": 1
-        // })
-        // .then(response=>{
-        //     console.log(response.data);
-        // })
-        // .catch(err=>console.log(err))
 
         axios.post(domain + "/api/v1/login", {
             "username": username,
             "password": password
         })
             .then(response => {
-                // console.log(response.data.user);
                 storeData(response.data.user);
                 setLoginStatus(true);
-                // console.log("userData: ", await getData());
             })
             .catch(() => console.log("Username/Password is wrong!"))
     }
@@ -133,13 +122,17 @@ export default function App() {
         try {
             const jsonString = await AsyncStorage.getItem('userData')
             const obj = JSON.parse(jsonString);
+            obj.status = 200;
             if (obj !== null) {
                 // value previously stored
                 return obj;
             }
         } catch (e) {
             // error reading value
-            return e;
+            const obj = {
+                status: 400
+            }
+            return obj;
         }
     }
 
@@ -149,16 +142,19 @@ export default function App() {
                 // console.log("user_id: ", res.id);
                 // console.log("location.latitude: ", location.latitude);
                 // console.log("location.longitude: ", location.longitude);
-                axios.post(domain + "/api/v1/store-gps/" + res.id, {
-                    "lat": location.latitude,
-                    "lng": location.longitude
-                })
-                    .then(response => {
-                        console.log(response.data);
+                if (res.status == 200) {
+
+                    axios.post(domain + "/api/v1/store-gps/" + res.id, {
+                        "lat": location.latitude,
+                        "lng": location.longitude
                     })
-                    .catch(e => console.log(e))
+                        .then(response => {
+                            console.log(response.data);
+                        })
+                        .catch(e => console.log(e))
+                }
             });
-        }, 3000);
+        }, 10000);
     }
 
     return (
@@ -199,7 +195,7 @@ export default function App() {
 
             {is_logged_in &&
                 <>
-                    <Text>You have successfully Logged in!</Text>
+                    <Text>Hi, {username}! You have successfully Logged in!</Text>
                     <TouchableOpacity onPress={logOut} style={styles.loginBtn}>
                         <Text style={styles.loginText}>LOG OUT</Text>
                     </TouchableOpacity>

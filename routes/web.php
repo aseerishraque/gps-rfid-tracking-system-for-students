@@ -33,6 +33,18 @@ Route::middleware(['is_logged_in'])->group(function () {
             Route::get('track-students/{classroom_id}', 'ClassroomController@trackStudents')->name('track.get');
             Route::post('store-attendance/{classroom_id}', 'AttendanceController@store')->name('attendance.store');
         });
+        Route::group(['prefix' => "announcements"], function(){
+            Route::get("/{classroom_id}", "AnnouncementController@index")->name("announcements.index");
+            Route::post("/{classroom_id}", "AnnouncementController@store")->name("announcements.store");
+            Route::put("/{announcement_id}", "AnnouncementController@update")->name("announcements.update");
+            Route::delete("/{announcement_id}", "AnnouncementController@destroy")->name("announcements.destroy");
+        });
+        Route::group(['prefix' => "notes"], function(){
+            Route::get("/{classroom_id}", "noteController@index")->name("notes.index");
+            Route::post("/{classroom_id}", "noteController@store")->name("notes.store");
+            Route::put("/{note_id}", "noteController@update")->name("notes.update");
+            Route::delete("/{note_id}", "noteController@destroy")->name("notes.destroy");
+        });
 
     });
     Route::group(['prefix' => "admin"], function (){
@@ -67,6 +79,7 @@ Route::middleware(['is_logged_in'])->group(function () {
     Route::group(['prefix' => "students"], function (){
         Route::get('apply-leave/{classroom_id}', 'LeaveApprovalController@create')->name('leave.apply');
         Route::post('apply-leave/{classroom_id}', 'LeaveApprovalController@applyLeave')->name('leave.apply.post');
+        Route::get('my-leave-requests/{classroom_id}', 'LeaveApprovalController@studentLeaves')->name('leave.students');
     });
 });
 

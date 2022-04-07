@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Announcements;
 use App\Models\Attendance;
 use App\Models\Classroom;
 use App\Models\LeaveApproval;
@@ -20,8 +21,11 @@ class ClassroomController extends Controller
                                 ->where('enrollments.student_id', auth()->user()->id)
                                 ->select("classrooms.*")
                                 ->get();
+        foreach ($classrooms as $classroom){
+            $announcement_count[$classroom->id] = Announcements::where("classroom_id", $classroom->id)->count();
+        }
 
-        return view('pages.classrooms.index', compact('classrooms'));
+        return view('pages.classrooms.index', compact('classrooms', 'announcement_count'));
     }
 
     public function joinClassroom(Request $request){

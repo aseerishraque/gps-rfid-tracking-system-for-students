@@ -36,7 +36,7 @@
                                     <th scope="col">Name</th>
                                     <th scope="col">Classroom</th>
                                     <th scope="col">Date</th>
-{{--                                    <th scope="col">View</th>--}}
+                                    <th scope="col">View</th>
 {{--                                    <th scope="col">Re-Evaluate</th>--}}
                                 </tr>
                                 </thead>
@@ -48,43 +48,48 @@
                                         <td>{{ $req->student_name }}</td>
                                         <td>{{ $req->classroom_name }}</td>
                                         <td>{{ $req->start_date.'-'.$req->end_date }}</td>
-{{--                                        <td>--}}
-{{--                                            <a class="btn btn-primary" href="#" role="button">View</a>--}}
-{{--                                        </td>--}}
-{{--                                        <td>--}}
-{{--                                            <!-- Button trigger modal -->--}}
-{{--                                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#aprove_{{ $req->id }}">--}}
-{{--                                                Click--}}
-{{--                                            </button>--}}
+                                        <td>
+                                            <!-- Button trigger modal -->
+                                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#aprove_{{ $req->id }}">
+                                                View
+                                            </button>
 
-{{--                                            <!-- Modal -->--}}
-{{--                                            <div class="modal fade" id="aprove_{{ $req->id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">--}}
-{{--                                                <div class="modal-dialog">--}}
-{{--                                                    <div class="modal-content">--}}
-{{--                                                        <div class="modal-header">--}}
-{{--                                                            <h5 class="modal-title" id="exampleModalLabel">Alert !</h5>--}}
-{{--                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">--}}
-{{--                                                                <span aria-hidden="true">&times;</span>--}}
-{{--                                                            </button>--}}
-{{--                                                        </div>--}}
-{{--                                                        <div class="modal-body">--}}
-{{--                                                            Are you sure to Approve ?--}}
-{{--                                                        </div>--}}
-{{--                                                        <div class="modal-footer">--}}
-{{--                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>--}}
-{{--                                                            <form action="{{ route('leave.approve-request', $req->id) }}" method="post">--}}
-{{--                                                                @csrf--}}
-{{--                                                                <button type="submit" class="btn btn-primary">Approve</button>--}}
-{{--                                                            </form>--}}
-{{--                                                            <form action="{{ route('leave.approve-decline', $req->id) }}" method="post">--}}
-{{--                                                                @csrf--}}
-{{--                                                                <button type="submit" class="btn btn-danger">Decline</button>--}}
-{{--                                                            </form>--}}
-{{--                                                        </div>--}}
-{{--                                                    </div>--}}
-{{--                                                </div>--}}
-{{--                                            </div>--}}
-{{--                                        </td>--}}
+                                            <!-- Modal -->
+                                            <div class="modal fade" id="aprove_{{ $req->id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="exampleModalLabel">Alert !</h5>
+                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <div>
+                                                                <object
+                                                                    data='{{ asset("$req->document") }}'
+                                                                    type="application/pdf"
+                                                                    width="490"
+                                                                    height="678"
+                                                                >
+                                                                </object>
+                                                            </div>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                            <form action="{{ route('leave.approve-request', $req->id) }}" method="post">
+                                                                @csrf
+                                                                <button type="submit" class="btn btn-primary">Approve</button>
+                                                            </form>
+                                                            <form action="{{ route('leave.approve-decline', $req->id) }}" method="post">
+                                                                @csrf
+                                                                <button type="submit" class="btn btn-danger">Decline</button>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
                                     </tr>
                                 @endforeach
                                 </tbody>

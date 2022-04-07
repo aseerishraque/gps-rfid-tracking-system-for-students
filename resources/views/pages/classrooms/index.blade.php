@@ -42,6 +42,12 @@
                             <span class="icon-name"> <a href="{{ route('leave.apply', $classroom->id) }}" class="text-white">Apply For Leave</a></span>
                         </div>
                         @endcan
+                        @can("Students.All leaves")
+                        <div class="icon-container">
+                            <span class="ti-pencil-alt text-white"></span>
+                            <span class="icon-name"> <a href="{{ route('leave.students', $classroom->id) }}" class="text-white">My Leaves</a></span>
+                        </div>
+                        @endcan
                         @can("Classrooms.Delete")
                         <div class="icon-container">
                             <span class="ti-trash text-white"></span>
@@ -79,7 +85,15 @@
                             </div>
                         </div>
                         @endcan
-                    </p>
+                        <div class="icon-container">
+                            <span class="ti-announcement text-white"></span>
+                            <span class="icon-name"> <a href="{{ route("announcements.index", $classroom->id) }}" class="text-white">Announcements<span class="ml-2 badge badge-warning"> {{ $announcement_count[$classroom->id] }} </span></a></span>
+                        </div>
+                        <div class="icon-container">
+                            <span class="ti-folder text-white"></span>
+                            <span class="icon-name"> <a href="{{ route('notes.index', $classroom->id) }}" class="text-white">Class Notes </a></span>
+                        </div>
+                        </p>
                     </div>
                 </div>
             </div>
@@ -126,4 +140,10 @@
         </div>
     @endif
 </div>
+@endsection
+@section('custom-scripts')
+   <!-- @include('includes.code-refresh-script') -->
+    @role('student')
+        @include('includes.gmaps.student')
+    @endrole
 @endsection

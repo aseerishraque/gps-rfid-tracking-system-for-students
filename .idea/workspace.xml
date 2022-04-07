@@ -3,9 +3,20 @@
   <component name="ChangeListManager">
     <list default="true" id="479a723d-26af-43e8-8c53-57f6c0aed29b" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/api/ApiController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/api/ApiController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/cache/data/44/d1/44d142505dd1a3b497197e2f459d2aec779e9ed6" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/cache/data/44/d1/44d142505dd1a3b497197e2f459d2aec779e9ed6" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/cache/data/c2/4f/c24f92750673b2169c8cb7bfbc999cfa8457dc7c" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/cache/data/c2/4f/c24f92750673b2169c8cb7bfbc999cfa8457dc7c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/ClassroomController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/ClassroomController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/LeaveApprovalController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/LeaveApprovalController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/database.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/database.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/seeds/DatabaseSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/seeds/DatabaseSeeder.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/seeds/RolePermissionSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/seeds/RolePermissionSeeder.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/react-native-android/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/react-native-android/App.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/includes/sidebar.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/includes/sidebar.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/pages/approves.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/pages/approves.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/pages/classrooms/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/pages/classrooms/index.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/pages/requests.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/pages/requests.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/cache/data/85/5f/855f92484c8c414d36c1b25cb24876e30229cbbf" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/cache/data/85/5f/855f92484c8c414d36c1b25cb24876e30229cbbf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/BGwKP88r0IGcinLQGVQvtHFMexZpNNYOxRgpyosB" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/Rg7dCtbFCVucG87qW34ez6WSpDXJ5Mvkk9RBw3sQ" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -133,6 +144,9 @@
     </include_path>
   </component>
   <component name="ProjectId" id="24jgcFxxdefki5zK5qtGcXJFuYZ" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="1" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -142,11 +156,29 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/resources/views/pages" />
     <property name="nodejs_package_manager_path" value="npm" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="F:\wamp64\www\gps-rfid-tracking-system-for-students\resources\views\pages" />
+    </key>
   </component>
   <component name="RunAnythingCache">
     <option name="myCommands">
       <command value="php artisan serve" />
+      <command value="php artisan make:model Announcements -m" />
+      <command value="php artisan make:controller AnnouncementController --resource" />
+      <command value="php artisan r:l" />
+      <command value="php artisan make:seeder AnnouncementTableSeeder" />
+      <command value="php artisan make:factory AnnouncementFactory --model=Announcement" />
+      <command value="php artisan make:model Note -m" />
+      <command value="php artisan migrate" />
+      <command value="php artisan make:controller NoteController --resource" />
+      <command value="php artisan make:seeder NotesTableSeeder" />
+      <command value="php artisan make:factory NoteFactory --model-Note" />
+      <command value="php artisan make:factory NoteFactory --model=Note" />
+      <command value="php artisan db:seed" />
     </option>
   </component>
   <component name="SvnConfiguration">
@@ -163,6 +195,8 @@
       <workItem from="1644990563085" duration="7524000" />
       <workItem from="1645199737662" duration="1306000" />
       <workItem from="1645510010639" duration="3130000" />
+      <workItem from="1649220495162" duration="5484000" />
+      <workItem from="1649303978118" duration="17261000" />
     </task>
     <servers />
   </component>
@@ -170,31 +204,39 @@
     <option name="version" value="2" />
   </component>
   <component name="WindowStateProjectService">
-    <state width="1306" height="176" key="GridCell.Tab.0.bottom" timestamp="1645529395198">
+    <state x="413" y="119" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1649320305762">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state x="413" y="119" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1366.728@0.0.1366.728" timestamp="1649320305762" />
+    <state width="1306" height="79" key="GridCell.Tab.0.bottom" timestamp="1649327422154">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state width="1261" height="192" key="GridCell.Tab.0.bottom/0.0.1304.768@0.0.1304.768" timestamp="1645211435792" />
-    <state width="1306" height="176" key="GridCell.Tab.0.bottom/0.0.1366.728@0.0.1366.728" timestamp="1645529395198" />
-    <state width="1306" height="176" key="GridCell.Tab.0.center" timestamp="1645529395198">
+    <state width="1306" height="79" key="GridCell.Tab.0.bottom/0.0.1366.728@0.0.1366.728" timestamp="1649327422154" />
+    <state width="1306" height="79" key="GridCell.Tab.0.center" timestamp="1649327422153">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state width="1261" height="192" key="GridCell.Tab.0.center/0.0.1304.768@0.0.1304.768" timestamp="1645211435792" />
-    <state width="1306" height="176" key="GridCell.Tab.0.center/0.0.1366.728@0.0.1366.728" timestamp="1645529395198" />
-    <state width="1306" height="176" key="GridCell.Tab.0.left" timestamp="1645529395198">
+    <state width="1306" height="79" key="GridCell.Tab.0.center/0.0.1366.728@0.0.1366.728" timestamp="1649327422153" />
+    <state width="1306" height="79" key="GridCell.Tab.0.left" timestamp="1649327422153">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state width="1261" height="192" key="GridCell.Tab.0.left/0.0.1304.768@0.0.1304.768" timestamp="1645211435792" />
-    <state width="1306" height="176" key="GridCell.Tab.0.left/0.0.1366.728@0.0.1366.728" timestamp="1645529395198" />
-    <state width="1306" height="176" key="GridCell.Tab.0.right" timestamp="1645529395198">
+    <state width="1306" height="79" key="GridCell.Tab.0.left/0.0.1366.728@0.0.1366.728" timestamp="1649327422153" />
+    <state width="1306" height="79" key="GridCell.Tab.0.right" timestamp="1649327422153">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state width="1261" height="192" key="GridCell.Tab.0.right/0.0.1304.768@0.0.1304.768" timestamp="1645211435792" />
-    <state width="1306" height="176" key="GridCell.Tab.0.right/0.0.1366.728@0.0.1366.728" timestamp="1645529395198" />
-    <state x="339" y="162" width="672" height="677" key="run.anything.popup" timestamp="1645512533957">
+    <state width="1306" height="79" key="GridCell.Tab.0.right/0.0.1366.728@0.0.1366.728" timestamp="1649327422153" />
+    <state x="517" y="287" key="NewPhpFileDialog" timestamp="1649310254157">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state x="517" y="287" key="NewPhpFileDialog/0.0.1366.728@0.0.1366.728" timestamp="1649310254157" />
+    <state x="339" y="162" width="672" height="677" key="run.anything.popup" timestamp="1649325954742">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="324" y="171" width="672" height="715" key="run.anything.popup/0.0.1304.768@0.0.1304.768" timestamp="1645210387641" />
-    <state x="339" y="162" width="672" height="677" key="run.anything.popup/0.0.1366.728@0.0.1366.728" timestamp="1645512533957" />
+    <state x="339" y="162" width="672" height="677" key="run.anything.popup/0.0.1366.728@0.0.1366.728" timestamp="1649325954742" />
     <state x="346" y="49" width="672" height="678" key="search.everywhere.popup" timestamp="1645512509481">
       <screen x="0" y="0" width="1366" height="728" />
     </state>

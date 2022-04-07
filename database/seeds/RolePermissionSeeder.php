@@ -48,7 +48,8 @@ class RolePermissionSeeder extends Seeder
             [
                 'group_name' => "Students",
                 'permissions' => [
-                    'Students.Apply Leave'
+                    'Students.Apply Leave',
+                    'Students.All leaves'
                 ]
             ]
         ];
@@ -72,7 +73,7 @@ class RolePermissionSeeder extends Seeder
                     $roleSuperAdmin->givePermissionTo($permission);
                     $permission->assignRole($roleSuperAdmin);
                 }
-                
+
             }
 
         }

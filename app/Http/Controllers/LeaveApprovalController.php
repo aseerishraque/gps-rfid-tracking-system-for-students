@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Classroom;
 use App\Models\LeaveApproval;
 use Illuminate\Http\Request;
- 
+
 class LeaveApprovalController extends Controller
 {
 
@@ -13,6 +13,22 @@ class LeaveApprovalController extends Controller
     {
         $classroom_name = Classroom::where('id', $classroom_id)->first()->name;
         return view('pages.leave.create', compact('classroom_id', 'classroom_name'));
+    }
+
+    public function studentLeaves($classroom_id)
+    {
+        $classrooms = Classroom::join("enrollments", "enrollments.classroom_id", "classrooms.id")
+                                ->where('enrollments.student_id', auth()->user()->id)
+                                ->select("classrooms.*")
+                                ->get();
+        $requests = LeaveApproval::join('classrooms', 'classrooms.id', 'leave_approvals.classroom_id')
+                                ->join('users', 'users.id', 'leave_approvals.user_id')
+                                 ->where('leave_approvals.user_id', auth()->user()->id)
+                                ->where('leave_approvals.classroom_id', $classroom_id)
+                                ->select('leave_approvals.*', 'users.id as student_id', 'users.name as student_name', 'classrooms.name as classroom_name')
+                                ->get();
+//         dd($requests);
+        return view('pages.leave.student-leaves', compact('requests', 'classrooms'));
     }
 
     public function applyLeave(Request $request, $classroom_id)

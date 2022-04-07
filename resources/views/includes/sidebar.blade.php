@@ -17,7 +17,9 @@
                         <a href="javascript:void(0)" aria-expanded="true"><i class="ti-dashboard"></i><span>Classrooms</span></a>
                         <ul class="collapse">
                             <li class="{{ Route::is('admin.classrooms') ? 'active' : '' }}"><a href="{{ route('admin.classrooms') }}">Classrooms<span class="badge badge-light">4</span></a></li>
+                            @can("Classrooms.Create")
                             <li class="{{ Route::is('classrooms.create') ? 'active' : '' }}"><a href="{{ route('classrooms.create') }}">Create Classrooms</a></li>
+                            @endcan
                         </ul>
                     </li>
                     @can("Admin.Reports")
