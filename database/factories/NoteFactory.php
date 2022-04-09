@@ -11,7 +11,7 @@ $factory->define(Note::class, function (Faker $faker) {
         "title" => $faker->jobTitle,
         "description" => $faker->realText($maxNbChars = 100, $indexSize = 2),
         "note_img_id" => 1,
-        "classroom_id" => $faker->randomElement($classrooms),
+        "classroom_id" => 1,
         "document" => "dummyfiles/".$faker->randomElement(array("1.pdf", "2.pdf", "3.pdf"))
     ];
 });

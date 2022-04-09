@@ -14,9 +14,12 @@ class noteController extends Controller
         $notes = Note::groupBy("note_img_id")
                     ->where("classroom_id", $classroom_id)->get();
         $docs = Note::where("classroom_id", $classroom_id)->get();
+        
         foreach ($docs as $doc){
             $documents[$doc->note_img_id][] = $doc->document;
         }
+        if(!isset($documents))
+            $documents = array();
 //        dd($documents);
         return view("pages.notes", compact("notes", 'classroom_id', 'documents'));
     }

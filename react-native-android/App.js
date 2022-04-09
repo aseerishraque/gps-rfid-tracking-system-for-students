@@ -27,7 +27,7 @@ export default function App() {
     const [user_id, changeUserId] = React.useState(null);
 
 
-    const domain = "http://192.168.1.40/gps-rfid-tracking-system-for-students/public";
+    const domain = "http://192.168.0.102/gps-rfid-tracking-system-for-students/public";
 
     const [location, setLocation] = useState(null);
     const [errorMsg, setErrorMsg] = useState(null);
