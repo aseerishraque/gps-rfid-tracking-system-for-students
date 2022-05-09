@@ -21,8 +21,13 @@ class ClassroomController extends Controller
                                 ->where('enrollments.student_id', auth()->user()->id)
                                 ->select("classrooms.*")
                                 ->get();
-        foreach ($classrooms as $classroom){
-            $announcement_count[$classroom->id] = Announcements::where("classroom_id", $classroom->id)->count();
+        if($classrooms->count() > 0){
+            foreach ($classrooms as $classroom){
+                $announcement_count[$classroom->id] = Announcements::where("classroom_id", $classroom->id)->count();
+            }
+        }
+        if(!isset($announcement_count)){
+            $announcement_count = array();
         }
 
         return view('pages.classrooms.index', compact('classrooms', 'announcement_count'));
