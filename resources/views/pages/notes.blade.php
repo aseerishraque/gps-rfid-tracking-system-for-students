@@ -8,6 +8,7 @@
         <div class="col-md-12">
             <div class="card">
                 <div class="card-body">
+                    @can("Notes.create")
                     <!-- Button trigger modal -->
                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createAnnouncement">
                         Create Notes
@@ -47,6 +48,7 @@
                             </div>
                         </div>
                     </div>
+                    @endcan
                     <div class="single-table">
                         <div class="table-responsive">
                             <table id="dataTable" class="table">
@@ -106,6 +108,7 @@
                                             </div>
                                         </td>
                                         <td>
+                                            @can("Notes.edit")
                                             <!-- Button trigger modal -->
                                             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#EditAn_{{ $req->id }}">
                                                 Edit
@@ -148,6 +151,8 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            @endcan
+                                            @can("Notes.delete")
                                             <!-- Button trigger modal -->
                                             <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteAn_{{ $req->id }}">
                                                 Delete
@@ -179,6 +184,7 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            @endcan
                                         </td>
                                     </tr>
                                 @endforeach

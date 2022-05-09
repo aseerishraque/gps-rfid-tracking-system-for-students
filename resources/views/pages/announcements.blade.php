@@ -8,6 +8,7 @@
         <div class="col-md-12">
             <div class="card">
                 <div class="card-body">
+                    @can("announcements.create")
                     <!-- Button trigger modal -->
                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createAnnouncement">
                         New Announcement
@@ -47,6 +48,7 @@
                             </div>
                         </div>
                     </div>
+                    @endcan
                     <div class="single-table">
                         <div class="table-responsive">
                             <table id="dataTable" class="table">
@@ -102,6 +104,7 @@
                                             </div>
                                         </td>
                                         <td>
+                                            @can("announcements.edit")
                                             <!-- Button trigger modal -->
                                             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#EditAn_{{ $req->id }}">
                                                 Edit
@@ -144,6 +147,8 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            @endcan
+                                            @can("announcements.delete")
                                             <!-- Button trigger modal -->
                                             <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteAn_{{ $req->id }}">
                                                 Delete
@@ -175,6 +180,7 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            @endcan
                                         </td>
                                     </tr>
                                 @endforeach
