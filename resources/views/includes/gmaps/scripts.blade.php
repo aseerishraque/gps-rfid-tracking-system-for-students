@@ -1,5 +1,5 @@
 <script async defer
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDYpYr9fw5AqhfSV1zRGXnVEHV3_f2n4SA&callback=initMap"></script>
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAkxcFq3HUIKe0adll-UXWQLeqKMkAtpS4&callback=initMap"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <script>
 
@@ -225,7 +225,7 @@
             detailWindow.open(map, marker);
             setTimeout(() => {
               detailWindow.close(map, marker);
-            }, 1000);
+            }, 5000);
           });
         }
 
