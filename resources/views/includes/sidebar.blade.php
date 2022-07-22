@@ -16,7 +16,7 @@
                     <li class="{{ Route::is('admin.classrooms') || Route::is('classrooms.create') ? 'active' : '' }}">
                         <a href="javascript:void(0)" aria-expanded="true"><i class="ti-dashboard"></i><span>Classrooms</span></a>
                         <ul class="collapse">
-                            <li class="{{ Route::is('admin.classrooms') ? 'active' : '' }}"><a href="{{ route('admin.classrooms') }}">Classrooms<span class="badge badge-light">4</span></a></li>
+                            <li class="{{ Route::is('admin.classrooms') ? 'active' : '' }}"><a href="{{ route('admin.classrooms') }}">Classrooms</a></li>
                             @can("Classrooms.Create")
                             <li class="{{ Route::is('classrooms.create') ? 'active' : '' }}"><a href="{{ route('classrooms.create') }}">Create Classrooms</a></li>
                             @endcan
@@ -53,8 +53,8 @@
                               Leave Approval
                             </span></a>
                         <ul class="collapse">
-                            <li class="{{ Route::is('leave.requests') ? 'active' : '' }}"><a href="{{ route('leave.requests') }}">Requests <span class="badge badge-light">4</span></a></li>
-                            <li class="{{ Route::is('leave.approves') ? 'active' : '' }}"><a href="{{ route('leave.approves') }}">All Approves <span class="badge badge-light">4</span></a></li>
+                            <li class="{{ Route::is('leave.requests') ? 'active' : '' }}"><a href="{{ route('leave.requests') }}">Requests </a></li>
+                            <li class="{{ Route::is('leave.approves') ? 'active' : '' }}"><a href="{{ route('leave.approves') }}">All Approves </a></li>
                         </ul>
                     </li>
                     @endcan
@@ -80,9 +80,9 @@
                               Roles & Permissions
                             </span></a>
                         <ul class="collapse">
-                            <li class="{{ Route::is('roles.create') ? 'active' : '' }}"><a href="{{ route('roles.create') }}">Create Role<span class="badge badge-light">4</span></a></li>
-                            <li class="{{ Route::is('roles.index') ? 'active' : '' }}"><a href="{{ route('roles.index') }}">All Roles <span class="badge badge-light">4</span></a></li>
-                            <li class="{{ Route::is('permissions.index') ? 'active' : '' }}"><a href="{{ route('permissions.index') }}">All Permissions <span class="badge badge-light">4</span></a></li>
+                            <li class="{{ Route::is('roles.create') ? 'active' : '' }}"><a href="{{ route('roles.create') }}">Create Role</a></li>
+                            <li class="{{ Route::is('roles.index') ? 'active' : '' }}"><a href="{{ route('roles.index') }}">All Roles </a></li>
+                            <li class="{{ Route::is('permissions.index') ? 'active' : '' }}"><a href="{{ route('permissions.index') }}">All Permissions </a></li>
                         </ul>
                     </li>
                     @endcan
@@ -93,8 +93,8 @@
                               Users
                             </span></a>
                         <ul class="collapse">
-                            <li class="{{ Route::is('users.create') ? 'active' : '' }}"><a href="{{ route('users.create') }}">Create User<span class="badge badge-light">4</span></a></li>
-                            <li class="{{ Route::is('users.index') ? 'active' : '' }}"><a href="{{ route('users.index') }}">All Users <span class="badge badge-light">4</span></a></li>
+                            <li class="{{ Route::is('users.create') ? 'active' : '' }}"><a href="{{ route('users.create') }}">Create User</a></li>
+                            <li class="{{ Route::is('users.index') ? 'active' : '' }}"><a href="{{ route('users.index') }}">All Users </a></li>
                         </ul>
                     </li>
                     @endcan
