@@ -20,7 +20,7 @@
                     </div>
                     <button class="btn btn-primary mb-2" id="student-gps-fetch-control">
                         <i class="fa fa-map-marker-alt mr-2"></i>
-                        1. Fetch Student GPS
+                        1. Fetch User GPS
                     </button>
                     <span id="set-boundary"></span>
                     <button class="btn btn-primary mb-2 d-none" id="create-polygon">2. Set Boundary</button>
