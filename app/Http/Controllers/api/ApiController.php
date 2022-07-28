@@ -122,10 +122,11 @@ class ApiController extends Controller
         }
     }
 
-    public function fetchGpsData(){
+    public function fetchGpsData($classroom_id){
         $students = Enrollment::join("student_gps_data", "student_gps_data.user_id", "enrollments.student_id")
                                 ->join("users", "users.id", "enrollments.student_id")
                                 ->select("student_gps_data.*", "users.name as name")
+                                ->where("enrollments.classroom_id", $classroom_id)
                                 ->get();
         $gpsData = array();
         $i=0;
@@ -166,12 +167,13 @@ class ApiController extends Controller
         ]);
     }
 
-    public function fetchRfidGpsData()
+    public function fetchRfidGpsData($classroom_id)
     {
         $students = Enrollment::join("student_gps_data", "student_gps_data.user_id", "enrollments.student_id")
             ->join("users", "users.id", "enrollments.student_id")
             ->join("rfid_logs", "rfid_logs.student_id", "enrollments.student_id")
             ->select("student_gps_data.*", "users.name as name")
+            ->where("enrollments.classroom_id", $classroom_id)
             ->get();
         $gpsData = array();
         $i=0;

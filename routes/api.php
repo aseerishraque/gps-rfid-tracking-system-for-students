@@ -31,8 +31,8 @@ Route::group(['prefix' => "v1"], function (){
     Route::get("store-student-rfid/{card_id}", "api\ApiController@storeRfidLog");
 
     //Track students api
-    Route::get("fetch-gps-data", "api\ApiController@fetchGpsData");
-    Route::get("fetch-rfid-gps-data", "api\ApiController@fetchRfidGpsData");
+    Route::get("fetch-gps-data/{classroom_id}", "api\ApiController@fetchGpsData");
+    Route::get("fetch-rfid-gps-data/{classroom_id}", "api\ApiController@fetchRfidGpsData");
     Route::post("get-rfid-logs-today", "api\ApiController@getRfidsToday");
     Route::post("store-student-gps-attendance/{classroom_id}", "api\ApiController@storeStudentGpsAttendance");
 });

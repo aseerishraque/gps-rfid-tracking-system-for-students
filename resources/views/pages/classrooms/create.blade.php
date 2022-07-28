@@ -19,14 +19,14 @@
                             <label for="Section">Section</label>
                             <input value="{{ old('section') }}" name="section" type="text" class="form-control">
                         </div>
-                        <div class="form-group">
-                            <label for="workingDays">Working days(Optional)</label>
-                            <input value="{{ old('working_days') }}" name="working_days" type="number" class="form-control">
-                        </div>
-                        <div class="form-group">
-                            <label for="marks">Marks(Optional)</label>
-                            <input value="{{ old('marks') }}" name="marks" type="number" class="form-control">
-                        </div>
+{{--                        <div class="form-group">--}}
+{{--                            <label for="workingDays">Working days(Optional)</label>--}}
+{{--                            <input value="{{ old('working_days') }}" name="working_days" type="number" class="form-control">--}}
+{{--                        </div>--}}
+{{--                        <div class="form-group">--}}
+{{--                            <label for="marks">Marks(Optional)</label>--}}
+{{--                            <input value="{{ old('marks') }}" name="marks" type="number" class="form-control">--}}
+{{--                        </div>--}}
                         <label class="sr-only" for="classRoomCode">Classroom Code</label>
                         <div class="input-group mb-2 mr-sm-2">
                             <div class="input-group-prepend">
@@ -37,7 +37,7 @@
 
                             <input name="join_code" readonly value="{{ $join_code }}" type="text" class="form-control" placeholder="Classroom Code">
                         </div>
-                        <div class="form-group">
+                        <div class="form-group d-none">
                             <label for="SendMessage">Send Message To Guardian</label>
                             <div class="form-check">
                                 <input class="form-check-input" type="radio" name="send_msg_guardian"  value="1" checked>

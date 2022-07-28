@@ -134,7 +134,7 @@
       // setTimeout(() => {
       //   deleteMarkers();
       // }, 5000);
-      function fetchStudentGpsData(){
+      function fetchStudentGpsData(classroom_id){
           let checkbox = document.getElementById("is_rfid");
           let is_checked = 0;
           if(checkbox.checked === true){
@@ -153,7 +153,7 @@
               fetch_api = "{{ URL::to('api/v1/fetch-gps-data') }}";
           }
 
-        axios.get(fetch_api)
+        axios.get(fetch_api+"/"+classroom_id)
         .then(response=>{
           // console.log(response.data.gps_data);
           markerArray.length = 0;
@@ -262,7 +262,7 @@
       };
       let toggleFetch = 0;
       document.getElementById("student-gps-fetch-control").onclick = function(){
-        fetchStudentGpsData();
+        fetchStudentGpsData("{{ $classroom_id }}}");
       };
 
 

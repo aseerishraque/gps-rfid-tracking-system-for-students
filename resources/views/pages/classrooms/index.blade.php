@@ -5,7 +5,7 @@
 @section('content')
     @include('includes.messages')
 <div class="row m-2">
-    @can("student")
+    @can("Students.joinClassroom")
     <!-- Button trigger modal -->
     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#joinModal">
         Join a Classroom
@@ -126,7 +126,7 @@
                     @endcan
                     <div class="icon-container">
                         <span class="ti-announcement text-white"></span>
-                        <span class="icon-name"> <a href="{{ route("announcements.index", $classroom->id) }}" class="text-white">Announcements<span class="ml-2 badge badge-warning"> {{ $announcement_count[$classroom->id] }} </span></a></span>
+                        <span class="icon-name"> <a href="{{ route("announcements.index", $classroom->id) }}" class="text-white">Announcements @if($announcement_count[$classroom->id] > 0) <span class="ml-2 badge badge-warning"> {{ $announcement_count[$classroom->id] }} </span> @endif </a></span>
                     </div>
                     <div class="icon-container">
                         <span class="ti-folder text-white"></span>
