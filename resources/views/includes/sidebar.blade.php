@@ -1,10 +1,10 @@
 <div class="sidebar-menu">
     <div class="sidebar-header">
-{{--        <div class="logo">--}}
-{{--            <a href="index.html"><img src="{{ asset('assets/images/icon/logo.png') }}" alt="logo"></a>--}}
-{{--        </div>--}}
-        <!-- <h3 class="text-white text-center">Attendance Management</h3> -->
-        <h3 class="text-white text-center">AMS</h3>
+        <div class="logo">
+            <a href="index.html"><img src="{{ asset('assets/images/icon/logo2_1.png') }}" alt="logo"></a>
+        </div>
+        <h3 class="text-white text-center">AquilaSoft</h3>
+{{--        <h3 class="text-white text-center">AMS</h3>--}}
     </div>
     <div class="main-menu">
         <div class="menu-inner">
